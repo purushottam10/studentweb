@@ -13,7 +13,7 @@
     <title>deletestudent</title>
 </head>
 <body>
-<form method="get" action=<c:url value= "/DeleteStudent"/>">
+<form method="get" , action="<c:url value= "/DeleteStudent"/>">
      Id<input type="text" name="id" /> </p>
     <input type="submit" value="Submit">
 </form>
