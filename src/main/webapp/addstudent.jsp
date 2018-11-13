@@ -13,7 +13,6 @@
 </head>
 <body>
 
-
     <form action="<c:url value= "/AddStudent"/>", method="get">
 
 

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface InfStudentDao {
-    static Logger  log =Logger.getLogger(InfStudentDao.class);
+
     public boolean addstudent(Student student);
     public int setId();
     public List<Student> display();

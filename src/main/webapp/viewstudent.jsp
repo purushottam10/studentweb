@@ -1,6 +1,5 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -13,30 +12,34 @@
 <body>
 
 <center>
-<form action="<c:url value= "/ViewStudent"/>", method="post">
+    <form action="<c:url value= "/ViewStudent"/>" , method="post">
 
 
+        <input type="submit" value="show" name="show">
+        <input type="submit" value="add" name="add">
 
-    <input type="submit" value="show" name="show">
-    <input type="submit" value="index" name="index">
+    </form>
 
-</form>
+    <table class="table ">
+        <tr>
+            <th>id</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Delete</th>
+            <th>Edit</th>
+        </tr>
+        <c:forEach items="${studentList}" var="student">
+            <tr>
+                <td><c:out value="${student.roll_no}"/></td>
+                <td><c:out value="${student.studentName}"/></td>
+                <td><c:out value="${student.age}"/></td>
+                <td><a href="<c:url value="/DeleteStudent?id="/><c:out value="${student.roll_no}"/>"> Delete</a></td>
+               <td> <a href="<c:url value="/EditStudent?id="/><c:out value="${student.roll_no}"/>">Edit</a>
+                </td>
+            </tr>
+        </c:forEach>
 
-<table class="table " >
-    <tr>
-        <th>id </th>
-        <th>Name</th>
-        <th>Age</th>
-    </tr>
-<c:forEach items="${studentList}" var="student">
-    <tr>
-        <td><c:out value="${student.roll_no}"></c:out></td>
-        <td><c:out value="${student.studentName}"></c:out></td>
-        <td><c:out value="${student.age        }"></c:out> </td>
-    </tr>
-    </c:forEach>
-
-</table>
+    </table>
 </center>
 </body>
 </html>

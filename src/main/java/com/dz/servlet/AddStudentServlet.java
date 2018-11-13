@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+/**
+ * this class add the student record in data base
+ * use doget method
 
+ */
 @WebServlet(name = "AddStudentServlet",urlPatterns = "/AddStudent")
 public class AddStudentServlet extends HttpServlet {
      private  Student student;
@@ -39,10 +43,20 @@ public class AddStudentServlet extends HttpServlet {
             log.error(e);
         }
 
-        studentDao.addstudent(student);
+       boolean status=studentDao.addstudent(student);
         log.trace(student.getRoll_no()+"  "+name+" "+age);
-        request.setAttribute("message","Data  added in database ");
-        RequestDispatcher requestDispatcher=getServletContext().getRequestDispatcher("/index.jsp");
-        requestDispatcher.forward(request,response);
+        if(status) {
+            request.setAttribute("message", "Data  added in database ");
+            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+
+            requestDispatcher.forward(request, response);
+        }
+        else {
+            request.setAttribute("message", "Data  not save in database ");
+            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+
+            requestDispatcher.forward(request, response);
+        }
     }//method end
 }
+//class end

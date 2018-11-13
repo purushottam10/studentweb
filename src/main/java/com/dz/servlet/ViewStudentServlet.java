@@ -22,7 +22,7 @@ public class ViewStudentServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
-        System.out.println("in do post  method  of View Student Servlet write ");
+        log.trace("in do post  method  of View Student Servlet write ");
 
         //System.out.println("welcome to get method ");
         studentDao =new StudentDao();
@@ -35,9 +35,9 @@ public class ViewStudentServlet extends HttpServlet {
             requestDispatcher.forward(request, response);
             log.trace("servlet pass the value ");
         }
-        if(request.getParameter("index").equals("index")){
+        if(request.getParameter("add").equals("add")){
 
-            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/addstudent.jsp");
             requestDispatcher.forward(request, response);
 
         }

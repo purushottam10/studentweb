@@ -17,7 +17,7 @@
 <form method="Get" action="/OperationsServlet">
 
     <input type="submit" name="index" value="index" >
-    <input type="submit" name="update" value="update">
+  <%--  <input type="submit" name="update" value="update">--%>
 
 </form>
 </center>

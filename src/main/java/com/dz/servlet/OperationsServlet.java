@@ -35,16 +35,16 @@ public class OperationsServlet extends HttpServlet {
           requestDispatcher.forward(request,response);
             viewStudentServlet.doPost(request,response);
         }
-    else if(opp.equals("edit")){
+  /*  else if(opp.equals("edit")){
             RequestDispatcher requestDispatcher=getServletContext().getRequestDispatcher("/editstudent.jsp");
             requestDispatcher.forward(request,response);
             editStudentServlet.doPost(request,response);
-        }
-        else if(opp.equals("delete")){
+        }*/
+        /*else if(opp.equals("delete")){
             RequestDispatcher requestDispatcher=getServletContext().getRequestDispatcher("/deletestudent.jsp");
             requestDispatcher.forward(request,response);
            deleteStudentServlet.doPost(request,response);
-        }
+        }*/
         else {
             RequestDispatcher requestDispatcher=getServletContext().getRequestDispatcher("/index.jsp");
             requestDispatcher.forward(request,response);

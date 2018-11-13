@@ -12,9 +12,9 @@
     <title>Title</title>
 </head>
 <body>
-<form action="<c:url value="/EditStudent"/>", method="get">
+<form action="<c:url value="/EditStudent"/>", method="post">
 
-    Id<input type="text" name="id" /> </p>
+  <%--  Roll no<input type="text" name="id" /> </p>--%>
     Name <input type="text" name="name" /> </p>
     Age <input type="text" name="age" /></p>
     <input type="submit" value="Submit">
