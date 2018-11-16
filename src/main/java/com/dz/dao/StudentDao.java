@@ -9,19 +9,26 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * impl StudentDao
+ * Perform all database activity
+ */
 public class StudentDao implements InfStudentDao {
 
     private DbConfig dbConfig;
     private PreparedStatement statement = null;
 
     private static Logger log = Logger.getLogger(StudentDao.class.getName());
+
+    /**
+     * @param student
+     * @return true if data add in database  else false
+     * to add student in database
+     */
     public boolean addstudent(Student student) {
 
-        dbConfig = new DbConfig();
-        Connection connection = dbConfig.getConnection();
 
-      log.info(" in add dao");
+        log.info(" in add dao");
 
         int count;
 
@@ -30,7 +37,7 @@ public class StudentDao implements InfStudentDao {
         }
 
         try {
-            statement = connection.prepareStatement("insert into student (id ,name,age)values (?,?,?)");
+            statement = new  DbConfig().getConnection().prepareStatement("insert into student (id ,name,age)values (?,?,?)");
 
             statement.setInt(1, student.getRoll_no());
             statement.setString(2, student.getStudentName());
@@ -41,11 +48,8 @@ public class StudentDao implements InfStudentDao {
                 return true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
-    /*   finally {
-            connection.close();
-        }*/
 
         return false;
 
@@ -53,37 +57,36 @@ public class StudentDao implements InfStudentDao {
 
     /**
      * @return roll_no
+     * to set increase id of student
      */
     public int setId() {
-        dbConfig = new DbConfig();
-        Connection connection = dbConfig.getConnection();
-       log.info("in operation");
-        try {
 
-            statement = connection.prepareStatement("select Max(id) from student");
+        log.info("in operation");
+        try {
+            statement = new DbConfig().getConnection().prepareStatement("select Max(id) from student");
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-              log.info(1);
+                log.info(1);
                 return rs.getInt(1) + 1;
-
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return 0;
     }
 
     /**
      * Display record
+     *
+     * @return student List
      */
     public List<Student> display() {
-        dbConfig = new DbConfig();
-        Connection connection = dbConfig.getConnection();
+
         Student student;
         List<Student> studentList = new ArrayList<>();
         try {
-            statement = connection.prepareStatement("select * from student");
+            statement =  new DbConfig().getConnection().prepareStatement("select * from student");
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
@@ -98,66 +101,58 @@ public class StudentDao implements InfStudentDao {
             return studentList;
         } catch (SQLException e) {
             // TODO: handle exception
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
 
     /**
      * @param id
-     * @return
+     * @return ture if record delete from database
      */
 
     public boolean removeById(int id) {
         // TODO Auto-generated method stub
-        int count = 0;
-        dbConfig = new DbConfig();
-        Connection connection = dbConfig.getConnection();
+
+
         try {
-            statement = connection.prepareStatement("delete from  student  where id= ?");
+            statement = new DbConfig().getConnection().prepareStatement("delete from  student  where id= ?");
             statement.setInt(1, id);
-            count = statement.executeUpdate();
 
-        } catch (SQLException e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            System.out.println("problem");
-            e.printStackTrace();
+            return statement.executeUpdate() > 0;
 
-        }
-        if (count > 0) {
-            return true;
+        } catch (SQLException | NullPointerException e) {
+            log.info("problem");
+            log.error(e.getMessage(), e);
+            return Boolean.FALSE;
         }
 
-        return false;
     }//method end
 
     /**
      * @param student
      * @return
-     * @throws IOException
+     * @throws IOException update the record of existing student
      */
     public boolean updateById(Student student) throws IOException {
         // TODO Auto-generated method stub
-        dbConfig = new DbConfig();
-        Connection connection = dbConfig.getConnection();
+
         int count = 0;
         log.info("print in update method ");
-      //  System.out.println(student.getRoll_no()+"inside update method");
+        //  System.out.println(student.getRoll_no()+"inside update method");
         if (student.getAge() == 0 || student.getStudentName().equals(null)) {
             return false;
         }
         try {
 
-            statement = connection.prepareStatement("update  student set name=? ,age=? where id =?");
+            statement =  new DbConfig().getConnection().prepareStatement("update  student set name=? ,age=? where id =?");
 
             statement.setString(1, student.getStudentName());
             statement.setInt(2, student.getAge());
             statement.setInt(3, student.getRoll_no());
             count = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         if (count > 0) {
             return true;

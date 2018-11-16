@@ -2,7 +2,7 @@ package com.dz.servlet;
 
 import com.dz.dao.StudentDao;
 import com.dz.model.Student;
-import org.apache.log4j.Logger;
+/*import org.apache.log4j.Logger;*/
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,17 +16,21 @@ import java.util.List;
 
 @WebServlet(name = "DeleteStudentServlet", urlPatterns = "/DeleteStudent")
 public class DeleteStudentServlet extends HttpServlet {
-    private StudentDao studentDao;
-    private Logger log = Logger.getLogger(DeleteStudentServlet.class);
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+   /* private Logger log = Logger.getLogger(DeleteStudentServlet.class);*/
 
-    }
-
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        studentDao = new StudentDao();
-        boolean status = false;
+        StudentDao studentDao= new StudentDao();
+        boolean status ;
 
         if (request.getParameter("id") != null) {
             status = studentDao.removeById(Integer.parseInt(request.getParameter("id")));
@@ -34,17 +38,17 @@ public class DeleteStudentServlet extends HttpServlet {
                 request.setAttribute("message", "Data  removed from  database ");
                 List<Student> studentList = studentDao.display();
                 request.setAttribute("studentList", studentList);// set Attribute
-
                 RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/viewstudent.jsp");
                 requestDispatcher.forward(request, response);
             } else {
                 request.setAttribute("message", "Data  not found in database ");
-                RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/deletemessage.jsp");
+                List<Student> studentList = studentDao.display();
+                request.setAttribute("studentList", studentList);
+                RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/viewstudent.jsp");
                 requestDispatcher.forward(request, response);
 
             }
         }
-
-
-    }
+    }//method end
 }
+//class end

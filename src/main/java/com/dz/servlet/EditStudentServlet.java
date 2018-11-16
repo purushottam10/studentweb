@@ -15,45 +15,49 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "EditStudentServlet", urlPatterns = "/EditStudent")
 public class EditStudentServlet extends HttpServlet {
-    private Student student;
-    private StudentDao studentDao;
+
+
     private static Logger log = Logger.getLogger(OperationsServlet.class.getName());
-    private   int id =-2;
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         boolean status = false;
+        int id = 0;
+        Student student = new Student();
+        StudentDao studentDao = new StudentDao();
+        response.setContentType("text/plain");
+        try {
+            String name = request.getParameter("studentName");
+            String age = request.getParameter("age");
+            id = Integer.parseInt(request.getParameter("id"));
+            log.info(" Data from                ajax   id  " + id + "   name  " + name + "  age  " + age);
+            student.setRoll_no(id);
+            log.info(student.getRoll_no() + "this is edit servlet");
+            student.setStudentName(name);
+            log.info(student.getStudentName() + "       edit from data ");
+            student.setAge(Integer.parseInt(age));
+            log.info(" set the age of  student model " + student.getAge()); // age zero set ho raha hai ? and database me uppadte bhi nhi kra rha
 
-        String name = request.getParameter("name");
-        String age = request.getParameter("age");
-        System.out.println(name);
-        student.setRoll_no(id);
-        log.info(student.getRoll_no()+"this is edit servlet ");
-        student.setStudentName(name);
-        log.info(student.getStudentName()+"       edit from data ");
+            status = studentDao.updateById(student);
 
-       try{
-           student.setAge(Integer.parseInt(age));
+            log.info("calling the update method ");
+        } catch (NumberFormatException e) {
+            request.setAttribute("message", "Incorrect data. Please recheck your input and try again");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/viewstudent.jsp");
+            rd.forward(request, response);
+            log.warning("" + e);
+        }
 
-       }catch (NumberFormatException e){
-           request.setAttribute("message", "age is not valid   ");
-           RequestDispatcher rd = getServletContext().getRequestDispatcher("/updatemessage.jsp");
-           rd.forward(request, response);
-           log.warning(""+e);
-       }
-        log.info(student.getAge()+" set the age of  student model ");
 
-        status = studentDao.updateById(student);
-
-        log.info("calling the update function");
         if (status) {
             request.setAttribute("message", "Data  update in database ");
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/updatemessage.jsp");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/viewstudent.jsp");
             rd.forward(request, response);
         } else {
 
             request.setAttribute("message", "Data not matched in database ");
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/updatemessage.jsp");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/viewstudent.jsp");
             rd.forward(request, response);
         }
     }//method end
@@ -61,22 +65,7 @@ public class EditStudentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        student = new Student();
-        studentDao = new StudentDao();
 
-
-            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/editstudent.jsp");
-            requestDispatcher.forward(request, response);
-            try {
-                id = Integer.parseInt(request.getParameter("id"));
-            } catch (NumberFormatException e) {
-                log.warning(e+"");
-            }
-
-
-        log.info(id + "this id passed from view page");
-
-
-    }
+    }//method end
 
 }

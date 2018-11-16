@@ -18,8 +18,7 @@ import java.io.IOException;
  */
 @WebServlet(name = "AddStudentServlet",urlPatterns = "/AddStudent")
 public class AddStudentServlet extends HttpServlet {
-     private  Student student;
-     private StudentDao studentDao;
+
      private static Logger log =Logger.getLogger(AddStudentServlet.class);
 
      protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,8 +30,8 @@ public class AddStudentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name=request.getParameter("name");
         String age=request.getParameter("age");
-        student=new Student();
-        studentDao=new StudentDao();
+        Student student=new Student();
+        StudentDao studentDao=new StudentDao();
 
         student.setRoll_no((studentDao.setId()));
 
@@ -53,7 +52,7 @@ public class AddStudentServlet extends HttpServlet {
         }
         else {
             request.setAttribute("message", "Data  not save in database ");
-            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/viewstudent.jsp");
 
             requestDispatcher.forward(request, response);
         }
